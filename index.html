@@ -8,6 +8,7 @@
 <meta name="description" content="Lavorazioni artigianali in peperino e pietra naturale: camini, fontane, lavatoi e opere su misura. Alessandro Cerroni, scalpellino artigiano. Viterbo - preventivo gratuito." />
 <meta name="keywords" content="scalpellino, peperino, pietra naturale, camini, fontane, lavatoi, Viterbo, artigiano, lavori su misura, arte in pietra, colonne, restauro, scultura, esperienza, preventivo gratuito">
 
+<!-- STILE CSS -->
 <style>
 :root{--paper:#f6efe6;--accent:#7a3b12;--text:#3b2b20;--muted:#735a4b;}
 html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--paper),#efe6db);font-family:Georgia,serif;color:var(--text);}
@@ -26,10 +27,10 @@ nav a:hover{text-decoration:underline;}
 .lb-overlay{position:fixed;inset:0;background:rgba(8,6,5,0.75);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px;}
 .lb-box{max-width:95%;max-height:95%;background:linear-gradient(180deg,#fbf6ef,#f0e8db);padding:14px;border-radius:6px;box-shadow:0 20px 40px rgba(0,0,0,0.5);display:flex;flex-direction:column;align-items:center;}
 .lb-box img{max-width:calc(100vw - 160px);max-height:calc(100vh - 160px);display:block;border-radius:4px;}
-.lb-caption{margin-top:10px;color:var(--muted);font-size:15px;}
+.lb-caption{margin-top:10px;color:var(--muted);font-size:15px;text-align:center;}
 .lb-close{position:absolute;top:18px;right:22px;color:#fff;font-size:30px;cursor:pointer;}
 .contact{background:linear-gradient(180deg, rgba(240,230,220,0.6), rgba(230,215,200,0.3));padding:14px;border-radius:6px;border:1px solid rgba(120,90,50,0.08);}
-.contact ul{list-style:none;padding:0;margin:0;line-height:1.8}
+.contact ul{list-style:none;padding:0;margin:0;line-height:1.8;}
 footer{text-align:center;padding:18px 0;margin-top:22px;color:var(--muted);font-size:14px;border-top:1px dashed rgba(120,90,50,0.08);}
 @media (max-width:600px){.thumb img{height:140px} h1{font-size:26px} .container{padding:16px}}
 </style>
@@ -54,27 +55,27 @@ footer{text-align:center;padding:18px 0;margin-top:22px;color:var(--muted);font-
       <h2 style="color:var(--accent);margin-top:8px;">Galleria</h2>
       <div class="gallery">
         <div class="thumb">
-          <img src="img1.jpg" alt="Salvator Rosa in pietra peperino" data-index="0"/>
+          <img src="img/salvator-rosa-peperino.jpg" alt="Salvator Rosa in pietra peperino" data-index="0"/>
           <div class="cap">Salvator Rosa in pietra peperino</div>
         </div>
         <div class="thumb">
-          <img src="img2.jpg" alt="Lavandino in pietra peperino" data-index="1"/>
+          <img src="img/lavandino-peperino.jpg" alt="Lavandino in pietra peperino" data-index="1"/>
           <div class="cap">Lavandino in pietra peperino</div>
         </div>
         <div class="thumb">
-          <img src="img3.jpg" alt="Camino d'epoca in pietra" data-index="2"/>
+          <img src="img/camino-epoca.jpg" alt="Camino d'epoca in pietra" data-index="2"/>
           <div class="cap">Camino d'epoca in pietra</div>
         </div>
         <div class="thumb">
-          <img src="img4.jpg" alt="Camino d'epoca in stile cinquecentesco in pietra peperino - pronta consegna" data-index="3"/>
+          <img src="img/camino-cinquecento.jpg" alt="Camino stile cinquecentesco - pronta consegna" data-index="3"/>
           <div class="cap">Camino d'epoca stile cinquecentesco – pronta consegna</div>
         </div>
         <div class="thumb">
-          <img src="img5.jpg" alt="Salvator Rosa in pietra peperino - pronta consegna" data-index="4"/>
+          <img src="img/salvator-rosa-pronta.jpg" alt="Salvator Rosa in pietra peperino - pronta consegna" data-index="4"/>
           <div class="cap">Salvator Rosa in pietra peperino – pronta consegna</div>
         </div>
         <div class="thumb">
-          <img src="img6.jpg" alt="Salvator Rosa in travertino" data-index="5"/>
+          <img src="img/salvator-rosa-travertino.jpg" alt="Salvator Rosa in travertino" data-index="5"/>
           <div class="cap">Salvator Rosa in travertino</div>
         </div>
       </div>
@@ -99,4 +100,56 @@ footer{text-align:center;padding:18px 0;margin-top:22px;color:var(--muted);font-
   </footer>
 
   <!-- Lightbox -->
-  <div class="lb-overlay" id="lightbox" role="
+  <div class="lb-overlay" id="lightbox" role="dialog" aria-hidden="true">
+    <button class="lb-close" id="lb-close" title="Chiudi" aria-label="Chiudi lightbox">✕</button>
+    <div class="lb-box" id="lb-box">
+      <img id="lb-img" src="" alt="" />
+      <div class="lb-caption" id="lb-caption"></div>
+    </div>
+  </div>
+
+  <script>
+    const thumbs = Array.from(document.querySelectorAll('.thumb img'));
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbCaption = document.getElementById('lb-caption');
+    const lbClose = document.getElementById('lb-close');
+    let currentIndex = 0;
+
+    thumbs.forEach((img, idx) => img.addEventListener('click', () => openLightbox(idx)));
+
+    function openLightbox(index){
+      currentIndex = index;
+      lbImg.src = thumbs[index].src;
+      lbImg.alt = thumbs[index].alt || '';
+      lbCaption.textContent = thumbs[index].alt || '';
+      lb.style.display = 'flex';
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      lb.style.display='none';
+      lb.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', function(e){ if(e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', function(e){ 
+      if(e.key === 'Escape') closeLightbox(); 
+      if(lb.style.display==='flex'){ 
+        if(e.key==='ArrowRight'){ navigate(1);} 
+        if(e.key==='ArrowLeft'){ navigate(-1);} 
+      } 
+    });
+
+    function navigate(dir){
+      let next = currentIndex + dir;
+      if(next < 0) next = thumbs.length - 1;
+      if(next >= thumbs.length) next = 0;
+      openLightbox(next);
+    }
+  </script>
+</body>
+</html>
